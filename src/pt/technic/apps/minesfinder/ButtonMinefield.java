@@ -13,9 +13,11 @@ import javax.swing.JButton;
  * @author someone
  */
 public class ButtonMinefield extends JButton {
-    private int state;
-    
-    public ButtonMinefield() {
+    private int state, col, line;
+
+    public ButtonMinefield(int col, int line) {
+        this.col = col;
+        this.line = line;
         state=Minefield.COVERED;
     }
     
@@ -48,4 +50,18 @@ public class ButtonMinefield extends JButton {
                 break;
         }
     }
+
+    public int getState() {
+        return state;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getLine() {
+        return line;
+    }
+    
+    
 }

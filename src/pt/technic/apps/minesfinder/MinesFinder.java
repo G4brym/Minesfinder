@@ -10,12 +10,17 @@ package pt.technic.apps.minesfinder;
  * @author someone
  */
 public class MinesFinder extends javax.swing.JFrame {
+    private RecordTable[] records;
 
     /**
      * Creates new form MinesFinder
      */
     public MinesFinder() {
         initComponents();
+        records = new RecordTable[3];
+        records[0] = new RecordTable();
+        records[1] = new RecordTable();
+        records[2] = new RecordTable();
     }
 
     /**
@@ -48,6 +53,7 @@ public class MinesFinder extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MinesFinder");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         panelTitle.setBackground(new java.awt.Color(136, 135, 217));
         panelTitle.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
@@ -181,7 +187,7 @@ public class MinesFinder extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEasyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEasyActionPerformed
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(new Minefield(9,9,10), records[0]);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnEasyActionPerformed
 
@@ -190,12 +196,12 @@ public class MinesFinder extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(new Minefield(16,16,40), records[1]);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnMediumActionPerformed
 
     private void btnHardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHardActionPerformed
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(new Minefield(16,30,90), records[2]);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnHardActionPerformed
 
