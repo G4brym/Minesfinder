@@ -22,7 +22,7 @@ public class RecordTable implements Serializable {
     private transient ArrayList<RecordTableListener> listeners;
 
     public RecordTable() {
-        name = "Anonymous0";
+        name = "Anonymous";
         score = 9999999;
         listeners = new ArrayList<>();
     }

@@ -17,7 +17,8 @@ Minesweeper Java Clone
 
 ### 3. Build
 
-To build this project ou can use any IDE, or just run the command "ant".
+To build this project you can use any IDE, or just run the command "ant".
+
 You can also grab the last .jar file from the [releses tab](https://github.com/G4brym/Minesfinder/releases)
 
 ### 4. Preview
