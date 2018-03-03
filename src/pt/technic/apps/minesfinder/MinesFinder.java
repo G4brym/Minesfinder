@@ -5,22 +5,113 @@
  */
 package pt.technic.apps.minesfinder;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author someone
  */
 public class MinesFinder extends javax.swing.JFrame {
-    private RecordTable[] records;
+
+    private RecordTable recordEasy;
+    private RecordTable recordMedium;
+    private RecordTable recordHard;
 
     /**
      * Creates new form MinesFinder
      */
     public MinesFinder() {
         initComponents();
-        records = new RecordTable[3];
-        records[0] = new RecordTable();
-        records[1] = new RecordTable();
-        records[2] = new RecordTable();
+        recordEasy = new RecordTable();
+        recordMedium = new RecordTable();
+        recordHard = new RecordTable();
+
+        readGameRecords();
+
+        labelEasyName.setText(recordEasy.getName());
+        labelEasyPoints.setText(Long.toString(recordEasy.getScore()/1000));
+        labelMediumName.setText(recordMedium.getName());
+        labelMediumPoints.setText(Long.toString(recordMedium.getScore()/1000));
+        labelHardName.setText(recordHard.getName());
+        labelHardPoints.setText(Long.toString(recordHard.getScore()/1000));
+
+        recordEasy.addRecordTableListener(new RecordTableListener() {
+            @Override
+            public void recordUpdated(RecordTable record) {
+                recordEasyUpdated(record);
+            }
+        });
+
+        recordMedium.addRecordTableListener(new RecordTableListener() {
+            @Override
+            public void recordUpdated(RecordTable record) {
+                recordMediumUpdated(record);
+            }
+        });
+
+        recordHard.addRecordTableListener(new RecordTableListener() {
+            @Override
+            public void recordUpdated(RecordTable record) {
+                recordHardUpdated(record);
+            }
+        });
+    }
+
+    private void recordEasyUpdated(RecordTable record) {
+        labelEasyName.setText(record.getName());
+        labelEasyPoints.setText(Long.toString(record.getScore()/1000));
+        saveGameRecords();
+    }
+
+    private void recordMediumUpdated(RecordTable record) {
+        labelMediumName.setText(record.getName());
+        labelMediumPoints.setText(Long.toString(record.getScore()/1000));
+        saveGameRecords();
+    }
+
+    private void recordHardUpdated(RecordTable record) {
+        labelHardName.setText(record.getName());
+        labelHardPoints.setText(Long.toString(record.getScore()/1000));
+        saveGameRecords();
+    }
+
+    private void saveGameRecords() {
+        ObjectOutputStream oos = null;
+        try {
+            File f = new File(System.getProperty("user.home") + File.separator + ".minesfinder.records");
+            oos = new ObjectOutputStream(new FileOutputStream(f));
+            oos.writeObject(recordEasy);
+            oos.writeObject(recordMedium);
+            oos.writeObject(recordHard);
+            oos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null,
+                    ex);
+        }
+    }
+
+    private void readGameRecords() {
+        ObjectInputStream ois = null;
+        File f = new File(System.getProperty("user.home") + File.separator + ".minesfinder.records");
+        if (f.canRead()) {
+            try {
+                ois = new ObjectInputStream(new FileInputStream(f));
+                recordEasy = (RecordTable) ois.readObject();
+                recordMedium = (RecordTable) ois.readObject();
+                recordHard = (RecordTable) ois.readObject();
+                ois.close();
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+        }
     }
 
     /**
@@ -53,12 +144,13 @@ public class MinesFinder extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MinesFinder");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(600, 450));
         setResizable(false);
 
         panelTitle.setBackground(new java.awt.Color(136, 135, 217));
         panelTitle.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         panelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        panelTitle.setText("Minesfinder v1.0");
+        panelTitle.setText("Minesfinder");
         panelTitle.setOpaque(true);
         getContentPane().add(panelTitle, java.awt.BorderLayout.PAGE_START);
 
@@ -139,7 +231,7 @@ public class MinesFinder extends javax.swing.JFrame {
                 .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelHardPoints)
                     .addComponent(labelHardName))
-                .addGap(0, 119, Short.MAX_VALUE))
+                .addGap(0, 169, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelRecords, java.awt.BorderLayout.LINE_START);
@@ -187,7 +279,7 @@ public class MinesFinder extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEasyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEasyActionPerformed
-        GameWindow gameWindow = new GameWindow(new Minefield(9,9,10), records[0]);
+        GameWindow gameWindow = new GameWindow(new Minefield(9, 9, 10), recordEasy);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnEasyActionPerformed
 
@@ -196,12 +288,12 @@ public class MinesFinder extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed
-        GameWindow gameWindow = new GameWindow(new Minefield(16,16,40), records[1]);
+        GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnMediumActionPerformed
 
     private void btnHardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHardActionPerformed
-        GameWindow gameWindow = new GameWindow(new Minefield(16,30,90), records[2]);
+        GameWindow gameWindow = new GameWindow(new Minefield(16, 30, 90), recordHard);
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnHardActionPerformed
 

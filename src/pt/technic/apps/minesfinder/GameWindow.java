@@ -5,6 +5,7 @@
  */
 package pt.technic.apps.minesfinder;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
+import javax.swing.border.*;
 
 /**
  *
@@ -37,7 +39,7 @@ public class GameWindow extends javax.swing.JFrame {
         this.minefield = minefield;
         this.record = record;
 
-        buttons = new ButtonMinefield[minefield.getHeight()][minefield.getWidth()];
+        buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
 
         getContentPane().setLayout(new GridLayout(minefield.getWidth(),
                 minefield.getHeight()));
@@ -59,16 +61,17 @@ public class GameWindow extends javax.swing.JFrame {
                                 + (minefield.getGameDuration() / 1000) + " seconds",
                                 "victory", JOptionPane.INFORMATION_MESSAGE
                         );
-
+                        long a = minefield.getGameDuration();
+                        long b = record.getScore();
                         boolean newRecord = minefield.getGameDuration() < record.getScore();
 
                         if (newRecord) {
                             String name = JOptionPane.showInputDialog("Enter your name");
-                            record.setRecord(name, minefield.getGameDuration());
+                            if(name != "")
+                                record.setRecord(name, minefield.getGameDuration());
                         }
-
-                        setVisible(false);
                     }
+                    setVisible(false);
                 }
             }
         };
@@ -148,12 +151,10 @@ public class GameWindow extends javax.swing.JFrame {
             public void keyReleased(KeyEvent ke) {
             }
         };
-
+        
         // Create buttons for the player
-        for (int y = 0;
-                y < minefield.getWidth();
-                y++) {
-            for (int x = 0; x < minefield.getHeight(); x++) {
+        for (int x = 0; x < minefield.getWidth(); x++) {
+            for (int y = 0; y < minefield.getHeight(); y++) {
                 buttons[x][y] = new ButtonMinefield(x, y);
                 buttons[x][y].addActionListener(action);
                 buttons[x][y].addMouseListener(mouseListener);
@@ -182,16 +183,17 @@ public class GameWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Game");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1094, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 553, Short.MAX_VALUE)
         );
 
         pack();
