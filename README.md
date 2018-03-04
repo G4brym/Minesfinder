@@ -4,6 +4,7 @@ Minesweeper Java Clone
 ### 1. Features
 
 * Java Swing interface
+* MVC design
 * Three dificulty levels
 * All minesweeper rules
 * Record table
