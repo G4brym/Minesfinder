@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pt.technic.apps.minesfinder;
 
 import java.util.Random;
 
 /**
  *
- * @author someone
+ * @author Gabriel Massadas
  */
 public class Minefield {
 
@@ -35,6 +30,10 @@ public class Minefield {
     private long timeGameDuration;
 
     public Minefield(int width, int height, int numMines) {
+        if(numMines<=0){
+            throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
+        }
+        
         this.width = width;
         this.height = height;
         this.numMines = numMines;
@@ -181,6 +180,10 @@ public class Minefield {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getNumMines() {
+        return numMines;
     }
 
 }
